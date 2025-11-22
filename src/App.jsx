@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Brain, Cpu, Globe2, Zap, ArrowRight, ChevronRight, Mail, Linkedin, Twitter, Code, Database, Shield, Sparkles } from 'lucide-react';
+import { Brain, ArrowRight, Mail, Linkedin, Twitter, Code, Database, Shield, Sparkles } from 'lucide-react';
 
 export default function Pranexity() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -7,143 +7,7 @@ export default function Pranexity() {
   const [scrolled, setScrolled] = useState(false);
   const canvasRef = useRef(null);
   const gridCanvasRef = useRef(null);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-
-    const handleMouseMove = (e) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-
-    // Rotating animation
-    const interval = setInterval(() => {
-      setRotation(prev => (prev + 0.5) % 360);
-    }, 50);
-
-    // Animated grid background (Stripe-style)
-    const gridCanvas = gridCanvasRef.current;
-    if (gridCanvas) {
-      const ctx = gridCanvas.getContext('2d');
-      let animationFrame;
-      let offset = 0;
-
-      const drawGrid = () => {
-        const width = gridCanvas.width;
-        const height = gridCanvas.height;
-        
-        ctx.clearRect(0, 0, width, height);
-        
-        // Create gradient
-        const gradient = ctx.createLinearGradient(0, 0, 0, height);
-        gradient.addColorStop(0, 'rgba(139, 92, 246, 0.03)');
-        gradient.addColorStop(0.5, 'rgba(168, 85, 247, 0.06)');
-        gradient.addColorStop(1, 'rgba(139, 92, 246, 0.03)');
-        
-        ctx.strokeStyle = gradient;
-        ctx.lineWidth = 1;
-        
-        // Draw vertical lines
-        for (let x = 0; x < width; x += 60) {
-          ctx.beginPath();
-          ctx.moveTo(x, 0);
-          ctx.lineTo(x, height);
-          ctx.stroke();
-        }
-        
-        // Draw horizontal lines with animation
-        for (let y = offset % 60; y < height; y += 60) {
-          ctx.beginPath();
-          ctx.moveTo(0, y);
-          ctx.lineTo(width, y);
-          ctx.stroke();
-        }
-        
-        offset += 0.3;
-        animationFrame = requestAnimationFrame(drawGrid);
-      };
-      
-      drawGrid();
-      
-      return () => {
-        cancelAnimationFrame(animationFrame);
-      };
-    }
-
-    // Draw rotating globe
-    const canvas = canvasRef.current;
-    if (canvas) {
-      const ctx = canvas.getContext('2d');
-      const drawGlobe = () => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
-        ctx.lineWidth = 1;
-
-        // Draw latitude lines
-        for (let i = 0; i < 6; i++) {
-          const radiusY = Math.abs(280 * Math.cos((i * Math.PI) / 6));
-          ctx.beginPath();
-          ctx.ellipse(300, 300, 280, radiusY, 0, 0, 2 * Math.PI);
-          ctx.stroke();
-        }
-
-        // Draw longitude lines
-        for (let i = 0; i < 12; i++) {
-          ctx.save();
-          ctx.translate(300, 300);
-          ctx.rotate((rotation * Math.PI / 180) + (i * Math.PI / 6));
-          ctx.beginPath();
-          ctx.ellipse(0, 0, 280, 100, 0, 0, 2 * Math.PI);
-          ctx.stroke();
-          ctx.restore();
-        }
-
-        // Draw outer circle
-        ctx.beginPath();
-        ctx.arc(300, 300, 280, 0, 2 * Math.PI);
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
-        ctx.lineWidth = 2;
-        ctx.stroke();
-
-        // Draw glowing dots
-        const dots = 20;
-        for (let i = 0; i < dots; i++) {
-          const angle = (rotation + i * (360 / dots)) * Math.PI / 180;
-          const x = 300 + Math.cos(angle) * 280;
-          const y = 300 + Math.sin(angle) * 280 * 0.4;
-          
-          ctx.beginPath();
-          ctx.arc(x, y, 3, 0, 2 * Math.PI);
-          ctx.fillStyle = 'rgba(139, 92, 246, 0.6)';
-          ctx.fill();
-          
-          // Glow effect
-          ctx.beginPath();
-          ctx.arc(x, y, 8, 0, 2 * Math.PI);
-          const gradient = ctx.createRadialGradient(x, y, 0, x, y, 8);
-          gradient.addColorStop(0, 'rgba(139, 92, 246, 0.3)');
-          gradient.addColorStop(1, 'rgba(139, 92, 246, 0)');
-          ctx.fillStyle = gradient;
-          ctx.fill();
-        }
-      };
-
-      const animate = () => {
-        drawGlobe();
-        requestAnimationFrame(animate);
-      };
-      animate();
-    }
-
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('scroll', handleScroll);
-      clearInterval(interval);
-    };
-  }, [rotation]);
+  const rotationRef = useRef(0);
 
   const services = [
     {
@@ -179,7 +43,163 @@ export default function Pranexity() {
     { value: "24/7", label: "Support Available" }
   ];
 
-  return (
+  useEffect(() => {
+    // Handlers
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    const handleMouseMove = (e) => setMousePosition({ x: e.clientX, y: e.clientY });
+
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('mousemove', handleMouseMove);
+
+    // Rotation updater
+    const interval = setInterval(() => {
+      rotationRef.current = (rotationRef.current + 0.5) % 360;
+      setRotation(rotationRef.current);
+    }, 50);
+
+    // Grid animation (uses its own RAF)
+    const gridCanvas = gridCanvasRef.current;
+    let gridRaf = null;
+    if (gridCanvas) {
+      const ctx = gridCanvas.getContext('2d');
+      let offset = 0;
+
+      const resize = () => {
+        const dpr = window.devicePixelRatio || 1;
+        gridCanvas.width = gridCanvas.clientWidth * dpr;
+        gridCanvas.height = gridCanvas.clientHeight * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      };
+
+      resize();
+      window.addEventListener('resize', resize);
+
+      const drawGrid = () => {
+        const width = gridCanvas.width;
+        const height = gridCanvas.height;
+        ctx.clearRect(0, 0, width, height);
+
+        const gradient = ctx.createLinearGradient(0, 0, 0, height);
+        gradient.addColorStop(0, 'rgba(139, 92, 246, 0.03)');
+        gradient.addColorStop(0.5, 'rgba(168, 85, 247, 0.06)');
+        gradient.addColorStop(1, 'rgba(139, 92, 246, 0.03)');
+
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = 1;
+
+        for (let x = 0; x < width; x += 60) {
+          ctx.beginPath();
+          ctx.moveTo(x, 0);
+          ctx.lineTo(x, height);
+          ctx.stroke();
+        }
+
+        for (let y = offset % 60; y < height; y += 60) {
+          ctx.beginPath();
+          ctx.moveTo(0, y);
+          ctx.lineTo(width, y);
+          ctx.stroke();
+        }
+
+        offset += 0.3;
+        gridRaf = requestAnimationFrame(drawGrid);
+      };
+
+      drawGrid();
+    }
+
+    // Globe animation (uses RAF)
+    const canvas = canvasRef.current;
+    let globeRaf = null;
+    if (canvas) {
+      const ctx = canvas.getContext('2d');
+
+      const resizeCanvas = () => {
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = canvas.clientWidth * dpr;
+        canvas.height = canvas.clientHeight * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      };
+
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas);
+
+      const drawGlobe = () => {
+        const w = canvas.width;
+        const h = canvas.height;
+        const cx = w / 2;
+        const cy = h / 2;
+        const radius = Math.min(w, h) * 0.45;
+
+        ctx.clearRect(0, 0, w, h);
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+        ctx.lineWidth = 1;
+
+        // Latitude
+        for (let i = 0; i < 6; i++) {
+          const radiusY = Math.abs(radius * Math.cos((i * Math.PI) / 6));
+          ctx.beginPath();
+          ctx.ellipse(cx, cy, radius, radiusY, 0, 0, 2 * Math.PI);
+          ctx.stroke();
+        }
+
+        // Longitude
+        for (let i = 0; i < 12; i++) {
+          ctx.save();
+          ctx.translate(cx, cy);
+          ctx.rotate((rotationRef.current * Math.PI) / 180 + (i * Math.PI) / 6);
+          ctx.beginPath();
+          ctx.ellipse(0, 0, radius, radius * 0.36, 0, 0, 2 * Math.PI);
+          ctx.stroke();
+          ctx.restore();
+        }
+
+        // Outer circle
+        ctx.beginPath();
+        ctx.arc(cx, cy, radius, 0, 2 * Math.PI);
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Dots
+        const dots = 20;
+        for (let i = 0; i < dots; i++) {
+          const angle = ((rotationRef.current + i * (360 / dots)) * Math.PI) / 180;
+          const x = cx + Math.cos(angle) * radius;
+          const y = cy + Math.sin(angle) * radius * 0.4;
+
+          ctx.beginPath();
+          ctx.arc(x, y, 3, 0, 2 * Math.PI);
+          ctx.fillStyle = 'rgba(139, 92, 246, 0.6)';
+          ctx.fill();
+
+          const glow = ctx.createRadialGradient(x, y, 0, x, y, 8);
+          glow.addColorStop(0, 'rgba(139, 92, 246, 0.3)');
+          glow.addColorStop(1, 'rgba(139, 92, 246, 0)');
+          ctx.fillStyle = glow;
+          ctx.beginPath();
+          ctx.arc(x, y, 8, 0, 2 * Math.PI);
+          ctx.fill();
+        }
+      };
+
+      const animateGlobe = () => {
+        drawGlobe();
+        globeRaf = requestAnimationFrame(animateGlobe);
+      };
+
+      animateGlobe();
+    }
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('scroll', handleScroll);
+      clearInterval(interval);
+      if (gridRaf) cancelAnimationFrame(gridRaf);
+      if (globeRaf) cancelAnimationFrame(globeRaf);
+    };
+  }, []);
+    return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden">
       {/* AI Cursor Glow */}
       <div 
@@ -220,10 +240,7 @@ export default function Pranexity() {
 
         <div className="relative max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-16 items-center z-10">
           <div className="space-y-8">
-            <div className="inline-flex items-center gap-2 bg-violet-500/10 border border-violet-500/30 text-violet-400 px-4 py-2 rounded-full text-sm backdrop-blur-sm">
-              <Brain className="w-4 h-4" />
-              <span>Powered by Advanced AI Technology</span>
-            </div>
+            
             
             <div>
               <h1 className="text-7xl lg:text-8xl font-bold tracking-tight mb-6 leading-none">
@@ -273,8 +290,8 @@ export default function Pranexity() {
 
           {/* Rotating Globe - Right Side */}
           <div className="flex items-center justify-end">
-            <div className="relative">
-              <canvas ref={canvasRef} width="600" height="600" className="w-full max-w-[500px]" />
+            <div className="relative mt-1">
+              <canvas ref={canvasRef} width="450" height="450" className="w-full max-w-[500px]" />
               <div className="absolute inset-0 bg-gradient-to-r from-violet-500/10 to-blue-500/10 rounded-full blur-2xl"></div>
             </div>
           </div>
@@ -501,6 +518,25 @@ export default function Pranexity() {
         .animate-particle {
           animation: particle linear infinite;
         }
+          .rotating-globe-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rotating-globe-canvas {
+  width: 100%;
+  max-width: 450px;
+}
+
+.rotating-globe-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(139,92,246,0.1), transparent);
+  filter: blur(80px);
+}
+
       `}</style>
     </div>
   );
