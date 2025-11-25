@@ -1,3 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root{
+	--nav-height: 64px;
+	--nav-accent-from: #0d9488; /* teal-600 */
+	--nav-accent-to: #2dd4bf;   /* teal-400 */
+}
+
+html,body,#root{height:100%;}
+body{
+	font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+	-webkit-font-smoothing:antialiased;
+	-moz-osx-font-smoothing:grayscale;
+}
+
+/* Minimal professional nav link with animated underline */
+.nav-link{
+	position:relative;
+	display:inline-block;
+	padding:0.35rem 0.25rem;
+	color:rgba(255,255,255,0.85);
+	transition:color .18s ease;
+}
+.nav-link:focus{outline:none}
+.nav-link::after{
+	content:"";
+	position:absolute;
+	left:0;
+	right:0;
+	bottom:-6px;
+	height:2px;
+	background:linear-gradient(90deg,var(--nav-accent-from),var(--nav-accent-to));
+	transform:scaleX(0);
+	transform-origin:left center;
+	transition:transform .25s cubic-bezier(.2,.8,.2,1);
+	border-radius:2px;
+}
+.nav-link:hover{color:rgba(255,255,255,1)}
+.nav-link:hover::after{transform:scaleX(1)}
+
+/* Brand styling */
+.nav-brand{font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+
+/* Compact utilities */
+.nav-inner{height:var(--nav-height);display:flex;align-items:center}
+
+/* Illustration & blob animations used across Home and Services */
+@keyframes float {
+	0% { transform: translateY(0) translateX(0) rotate(0deg); }
+	50% { transform: translateY(-14px) translateX(6px) rotate(4deg); }
+	100% { transform: translateY(0) translateX(0) rotate(0deg); }
+}
+
+@keyframes pulse {
+	0% { transform: scale(1); opacity: 0.95 }
+	50% { transform: scale(1.06); opacity: 1 }
+	100% { transform: scale(1); opacity: 0.95 }
+}
+
+.illus { position:relative; transition: transform .45s cubic-bezier(.2,.9,.2,1), opacity .35s ease; opacity:0; transform: translateY(8px) scale(.995); }
+.illus.active { opacity:1; transform: translateY(0) scale(1); }
+
+.illus .blob { border-radius: 9999px; position: absolute; filter: blur(8px); opacity: .9 }
+.illus .blob-1 { width: 120px; height: 120px; left: -20px; top: -18px; animation: float 6s ease-in-out infinite; }
+.illus .blob-2 { width: 86px; height: 86px; right: 6px; top: 8px; animation: float 7s ease-in-out infinite; animation-delay: .2s }
+.illus .blob-3 { width: 56px; height: 56px; right: 22px; bottom: 6px; animation: float 9s ease-in-out infinite; animation-delay: .5s }
+
+.illus .panel { position:absolute; inset:8px; border-radius:10px; background: linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.14)); display:flex; align-items:center; justify-content:center; color: rgba(255,255,255,0.7); font-size: .9rem }
+
+.detail-fade { opacity:0; transform: translateY(10px); transition: all .45s cubic-bezier(.2,.9,.2,1); }
+.detail-fade.show { opacity:1; transform: translateY(0); }
+
+/* Small subtle floating for text blocks */
+.float-slow { animation: float 16s ease-in-out infinite; }
+
+/* Service icon and illustration styles */
+.service-icon {
+	display: inline-grid;
+	place-items: center;
+	width: 48px;
+	height: 48px;
+	border-radius: 10px;
+	box-shadow: 0 6px 18px rgba(8,6,23,0.6);
+	color: white;
+}
+
+.case-illustration { width: 100%; height: 100%; display:flex; align-items:center; justify-content:center }
+.case-illustration svg { opacity: .95 }
+
+/* Global glass / panel styling to match hero touch-and-feel */
+.glass-card {
+	background: linear-gradient(180deg, rgba(6,6,10,0.52), rgba(6,6,10,0.28));
+	border: 1px solid rgba(255,255,255,0.04);
+	box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+	border-radius: 12px;
+}
+
+.panel { padding: 1.25rem; }
+
+.section-title { color: rgba(148,163,184,0.9); font-weight:600; letter-spacing:.08em }
+.muted { color: rgba(255,255,255,0.65) }
+
+.case-card { transition: transform .28s cubic-bezier(.2,.9,.2,1), box-shadow .2s ease; }
+.case-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(17,24,39,0.6) }
+
+.process-step { background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border: 1px solid rgba(255,255,255,0.02); border-radius: 12px; padding: 1.25rem }
+
+.client-logo { background: rgba(255,255,255,0.02); border-radius: 10px; padding: .75rem; display:flex; align-items:center; justify-content:center }
+
+.cta-section { background: linear-gradient(90deg, rgba(99,102,241,0.03), rgba(20,184,166,0.02)); }
+
+/* Slight accent bar for section headers */
+.accent-bar { height: 6px; width: 64px; border-radius: 999px; background: linear-gradient(90deg, var(--nav-accent-from), var(--nav-accent-to)); margin: 8px 0 18px }
+
+@media (prefers-reduced-motion: reduce) {
+	.case-card, .cta-btn, .ghost-btn { transition: none !important }
+}
