@@ -11,14 +11,57 @@ export default function Contact() {
     preferredTime: ''
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState({ type: '', message: '' });
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission
-    console.log('Form submitted:', formData);
+    setIsSubmitting(true);
+    setSubmitStatus({ type: '', message: '' });
+
+    try {
+      const response = await fetch('http://localhost:5000/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSubmitStatus({ 
+          type: 'success', 
+          message: 'Thank you! Your demo request has been sent successfully. We\'ll get back to you soon!' 
+        });
+        // Reset form
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          message: '',
+          preferredTime: ''
+        });
+      } else {
+        setSubmitStatus({ 
+          type: 'error', 
+          message: data.error || 'Something went wrong. Please try again.' 
+        });
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setSubmitStatus({ 
+        type: 'error', 
+        message: 'Unable to connect to the server. Please try again later.' 
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -30,12 +73,12 @@ export default function Contact() {
       transition={{ duration: 0.5 }}
     >
       {/* centered nav pill */}
-      <div className="fixed left-1/2 transform -translate-x-1/2 top-8 z-50">
-        <div className="nav-pills inline-flex items-center gap-4 bg-black/40 border border-white/6 rounded-full px-6 py-2 backdrop-blur-md">
-          <a href="/" className="text-sm text-white/70 px-3 py-1 hover:text-white">Home</a>
-          <a href="/services" className="text-sm text-white/70 px-3 py-1 hover:text-white">Expertise</a>
-          <a href="/about" className="text-sm text-white/70 px-3 py-1 hover:text-white">About</a>
-          <a href="/contact" className="text-sm text-white/70 px-3 py-1 hover:text-white">Contact</a>
+      <div className="fixed left-1/2 transform -translate-x-1/2 top-20 sm:top-8 z-50">
+        <div className="nav-pills inline-flex items-center gap-2 sm:gap-4 bg-black/40 border border-white/6 rounded-full px-3 sm:px-6 py-2 backdrop-blur-md">
+          <a href="/" className="text-xs sm:text-sm text-white/70 px-2 sm:px-3 py-1 hover:text-white">Home</a>
+          <a href="/services" className="text-xs sm:text-sm text-white/70 px-2 sm:px-3 py-1 hover:text-white">Expertise</a>
+          <a href="/about" className="text-xs sm:text-sm text-white/70 px-2 sm:px-3 py-1 hover:text-white">About</a>
+          <a href="/contact" className="text-xs sm:text-sm text-white/70 px-2 sm:px-3 py-1 hover:text-white">Contact</a>
         </div>
       </div>
 
@@ -154,12 +197,23 @@ export default function Contact() {
                 </select>
               </div>
 
+              {submitStatus.message && (
+                <div className={`p-4 rounded-lg ${
+                  submitStatus.type === 'success' 
+                    ? 'bg-teal-500/10 border border-teal-500/20 text-teal-400' 
+                    : 'bg-red-500/10 border border-red-500/20 text-red-400'
+                }`}>
+                  {submitStatus.message}
+                </div>
+              )}
+
               <button
                 type="submit"
-                className="w-full inline-flex items-center justify-center gap-3 bg-teal-600 hover:bg-teal-500 px-6 py-4 rounded-full text-white font-medium transition-all transform hover:scale-[1.02] active:scale-[0.98]"
+                disabled={isSubmitting}
+                className="w-full inline-flex items-center justify-center gap-3 bg-teal-600 hover:bg-teal-500 px-6 py-4 rounded-full text-white font-medium transition-all transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
                 <Send className="w-4 h-4" />
-                Book Demo Session
+                {isSubmitting ? 'Sending...' : 'Book Demo Session'}
               </button>
             </form>
           </motion.div>

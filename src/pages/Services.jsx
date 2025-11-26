@@ -51,12 +51,12 @@ export default function Services() {
       transition={{ duration: 0.5 }}
     >
       {/* centered nav pill */}
-      <div className="fixed left-1/2 transform -translate-x-1/2 top-8 z-50">
-        <div className="nav-pills inline-flex items-center gap-4 bg-black/40 border border-white/6 rounded-full px-6 py-2 backdrop-blur-md">
-          <a href="/" className="text-sm text-white/70 px-3 py-1 hover:text-white">Home</a>
-          <a href="/services" className="text-sm text-white/70 px-3 py-1 hover:text-white">Expertise</a>
-          <a href="/about" className="text-sm text-white/70 px-3 py-1 hover:text-white">About</a>
-          <a href="/contact" className="text-sm text-white/70 px-3 py-1 hover:text-white">Contact</a>
+      <div className="fixed left-1/2 transform -translate-x-1/2 top-20 sm:top-8 z-50">
+        <div className="nav-pills inline-flex items-center gap-2 sm:gap-4 bg-black/40 border border-white/6 rounded-full px-3 sm:px-6 py-2 backdrop-blur-md">
+          <a href="/" className="text-xs sm:text-sm text-white/70 px-2 sm:px-3 py-1 hover:text-white">Home</a>
+          <a href="/services" className="text-xs sm:text-sm text-white/70 px-2 sm:px-3 py-1 hover:text-white">Expertise</a>
+          <a href="/about" className="text-xs sm:text-sm text-white/70 px-2 sm:px-3 py-1 hover:text-white">About</a>
+          <a href="/contact" className="text-xs sm:text-sm text-white/70 px-2 sm:px-3 py-1 hover:text-white">Contact</a>
         </div>
       </div>
 
@@ -100,18 +100,36 @@ export default function Services() {
                   }
                 }}
               >
-                <a href={`/services/${e.id}`} className="lg:col-span-7 block relative rounded-xl overflow-hidden">
-                  <div className={`absolute inset-0 bg-gradient-to-br ${e.color} opacity-20`} />
-                  <div className="relative p-12 lg:p-20 h-full flex flex-col justify-end">
-                    <div className="text-sm text-teal-300 uppercase tracking-wider mb-2">Expertise Area</div>
-                    <h2 className="text-3xl lg:text-4xl font-medium mb-3">{e.title}</h2>
-                    <p className="text-white/70 max-w-2xl mb-6">{e.subtitle}</p>
-                    <div className="flex items-center gap-3 text-sm text-teal-300">
+                <div className="lg:col-span-7 block relative rounded-xl overflow-hidden group">
+                  {/* Background Image */}
+                  <div className="absolute inset-0">
+                    <img 
+                      src={`https://images.unsplash.com/photo-${
+                        e.id === 'ai' ? '1677442136019-21780ecad995?w=1920&q=90' : 
+                        e.id === 'software' ? '1498050108023-c5249f4df085?w=1920&q=90' : 
+                        e.id === 'data' ? '1639322537228-f710d846310a?w=1920&q=90' : 
+                        '1558494949-ef010cbdcc31?w=1920&q=90'
+                      }`}
+                      alt={e.title}
+                      className="w-full h-full object-cover opacity-30 group-hover:opacity-70 group-hover:scale-105 transition-all duration-700"
+                    />
+                  </div>
+                  
+                  {/* Gradient Overlay */}
+                  <div className={`absolute inset-0 bg-gradient-to-br ${e.color} opacity-10 mix-blend-multiply`} />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-black/40" />
+                  
+                  {/* Content */}
+                  <div className="relative p-12 lg:p-20 h-full flex flex-col justify-end z-10">
+                    <div className="text-sm text-teal-300 uppercase tracking-wider mb-2 opacity-90">Expertise Area</div>
+                    <h2 className="text-3xl lg:text-4xl font-medium mb-3 text-white">{e.title}</h2>
+                    <p className="text-white/80 max-w-2xl mb-6">{e.subtitle}</p>
+                    <div className="flex items-center gap-3 text-sm text-teal-300 group-hover:gap-4 transition-all duration-300">
                       <span>Learn more</span>
-                      <ArrowRight className="w-4 h-4" />
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
                     </div>
                   </div>
-                </a>
+                </div>
 
                 <div className="lg:col-span-5 flex flex-col gap-6">
                   <div className="glass-card p-6 rounded-xl h-full flex flex-col justify-between">

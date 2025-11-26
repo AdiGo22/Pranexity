@@ -29,12 +29,12 @@ export default function About() {
       transition={{ duration: 0.5 }}
     >
       {/* centered nav pill */}
-      <div className="fixed left-1/2 transform -translate-x-1/2 top-8 z-50">
-        <div className="nav-pills inline-flex items-center gap-4 bg-black/40 border border-white/6 rounded-full px-6 py-2 backdrop-blur-md">
-          <a href="/" className="text-sm text-white/70 px-3 py-1 hover:text-white">Home</a>
-          <a href="/services" className="text-sm text-white/70 px-3 py-1 hover:text-white">Expertise</a>
-          <a href="/about" className="text-sm text-white/70 px-3 py-1 hover:text-white">About</a>
-          <a href="/contact" className="text-sm text-white/70 px-3 py-1 hover:text-white">Contact</a>
+      <div className="fixed left-1/2 transform -translate-x-1/2 top-20 sm:top-8 z-50">
+        <div className="nav-pills inline-flex items-center gap-2 sm:gap-4 bg-black/40 border border-white/6 rounded-full px-3 sm:px-6 py-2 backdrop-blur-md">
+          <a href="/" className="text-xs sm:text-sm text-white/70 px-2 sm:px-3 py-1 hover:text-white">Home</a>
+          <a href="/services" className="text-xs sm:text-sm text-white/70 px-2 sm:px-3 py-1 hover:text-white">Expertise</a>
+          <a href="/about" className="text-xs sm:text-sm text-white/70 px-2 sm:px-3 py-1 hover:text-white">About</a>
+          <a href="/contact" className="text-xs sm:text-sm text-white/70 px-2 sm:px-3 py-1 hover:text-white">Contact</a>
         </div>
       </div>
 

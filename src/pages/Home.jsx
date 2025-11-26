@@ -252,12 +252,12 @@ export default function Home() {
         </div>
 
         {/* centered nav pill */}
-        <div className="fixed left-1/2 transform -translate-x-1/2 top-8 z-50">
-              <div className="nav-pills inline-flex items-center gap-4 bg-black/40 border border-white/6 rounded-full px-6 py-2 backdrop-blur-md">
-                <a href="/" className="text-sm text-white/70 px-3 py-1 hover:text-white">Home</a>
-                <a href="/services" className="text-sm text-white/70 px-3 py-1 hover:text-white">Expertise</a>
-                <a href="/about" className="text-sm text-white/70 px-3 py-1 hover:text-white">About</a>
-                <a href="/contact" className="text-sm text-white/70 px-3 py-1 hover:text-white">Contact</a>
+        <div className="fixed left-1/2 transform -translate-x-1/2 top-20 sm:top-8 z-50">
+              <div className="nav-pills inline-flex items-center gap-2 sm:gap-4 bg-black/40 border border-white/6 rounded-full px-3 sm:px-6 py-2 backdrop-blur-md">
+                <a href="/" className="text-xs sm:text-sm text-white/70 px-2 sm:px-3 py-1 hover:text-white">Home</a>
+                <a href="/services" className="text-xs sm:text-sm text-white/70 px-2 sm:px-3 py-1 hover:text-white">Expertise</a>
+                <a href="/about" className="text-xs sm:text-sm text-white/70 px-2 sm:px-3 py-1 hover:text-white">About</a>
+                <a href="/contact" className="text-xs sm:text-sm text-white/70 px-2 sm:px-3 py-1 hover:text-white">Contact</a>
               </div>
         </div>
 
@@ -269,7 +269,7 @@ export default function Home() {
               </div>
 
               <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-tight tracking-tight">
-                Revolutionize Your Marketing
+                Revolutionize Your Business
                 <br />
                 <span className="bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">with AI-Powered Solutions</span>
               </h1>
@@ -308,14 +308,14 @@ export default function Home() {
       </section>
 
       {/* Stats Section */}
-      <section ref={statsRef} className="py-20 px-8 border-t border-white/5">
-        <div className="max-w-7xl mx-auto grid grid-cols-4 gap-12">
+      <section ref={statsRef} className="py-20 px-4 sm:px-8 border-t border-white/5">
+        <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-12">
           {stats.map((stat, i) => (
-            <div key={i} className="text-center group glass-card panel">
-              <div className="text-5xl font-light mb-2 bg-gradient-to-r from-teal-400 to-blue-400 bg-clip-text text-transparent group-hover:scale-110 transition-transform">
+            <div key={i} className="text-center group glass-card panel p-6 sm:p-4 hover:scale-105 transition-transform duration-300">
+              <div className="text-4xl sm:text-5xl font-light mb-2 sm:mb-2 bg-gradient-to-r from-teal-400 to-blue-400 bg-clip-text text-transparent group-hover:scale-110 transition-transform">
                 <span className="stat-counter" data-target={stat.value}>0</span>{stat.suffix}
               </div>
-              <div className="text-sm text-white/40 uppercase tracking-wider">{stat.label}</div>
+              <div className="text-xs sm:text-sm text-white/40 uppercase tracking-wider">{stat.label}</div>
             </div>
           ))}
         </div>
