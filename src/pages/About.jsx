@@ -90,9 +90,13 @@ export default function About() {
                   }
                 }}
               >
-                {/* Avatar placeholder */}
-                <div className="w-24 h-24 rounded-full bg-gradient-to-br from-teal-500/20 to-blue-500/20 mb-6 flex items-center justify-center">
-                  <div className="text-3xl font-light text-teal-400">{founder.name.charAt(0)}</div>
+                {/* Avatar with actual photo */}
+                <div className="w-32 h-32 rounded-full overflow-hidden mb-6 border-2 border-teal-500/20 group-hover:border-teal-500/50 transition-all">
+                  <img 
+                    src={`/images/${founder.name.split(' ')[0]}.jpg`}
+                    alt={founder.name}
+                    className="w-full h-full object-cover object-center"
+                  />
                 </div>
 
                 <h3 className="text-2xl font-medium mb-1">{founder.name}</h3>

@@ -53,7 +53,7 @@ export default function App() {
 			/>
 
 			<nav className={`fixed top-0 w-full z-40 transition-all duration-300 ${scrolled ? 'bg-black/80 backdrop-blur-xl border-b border-white/10' : 'bg-transparent'}`}>
-				<div className="max-w-7xl mx-auto px-8 nav-inner flex justify-between items-center" style={{height: 64}}>
+				<div className="max-w-7xl mx-auto px-8 nav-inner flex justify-between items-center pt-9" style={{height: 80}}>
 					<div className="flex items-center gap-4">
 						<a href="/" className="flex items-center">
 							<img src="/PranexityLogo.png" alt="Pranexity" className="h-24 w-auto" />
