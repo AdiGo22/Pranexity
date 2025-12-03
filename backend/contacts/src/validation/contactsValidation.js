@@ -8,5 +8,5 @@ export const contactValidator = [
   body("preferredTime")
     .optional()
     .isIn(["", "morning", "afternoon", "evening"])
-    .withMessage("Invalid preferred time")
+    .withMessage("Invalid preferred time"),
 ];

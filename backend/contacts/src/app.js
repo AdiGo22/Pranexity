@@ -7,15 +7,21 @@ dotenv.config();
 
 const app = express();
 
-// Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({ origin: process.env.CORS_ORIGIN }));
 
-// Routes
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
+
+app.options("*", cors());
+
 app.use("/api", contactRoutes);
 
-// Health check
 app.get("/", (req, res) => {
   res.send("Pranexity Contact API is running");
 });
