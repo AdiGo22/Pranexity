@@ -4,12 +4,13 @@
   "description": "Backend service for handling contact form submissions",
   "type": "module",
   "main": "src/app.js",
-  "build": "echo \"No build needed\"",
   "scripts": {
     "dev": "nodemon src/app.js",
     "start": "node src/app.js",
+    "build": "node src/app.js",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev --name init"
+
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
