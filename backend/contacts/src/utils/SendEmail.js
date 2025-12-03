@@ -11,9 +11,9 @@ export const sendContactEmail = async ({ name, email, phone, message, preferredT
     const response = await resend.emails.send({
       from: process.env.FROM_EMAIL,   
       to: process.env.SEND_TO,     
-      subject: "New Contact Form Submission",
+      subject: "New Updates",
       html: `
-        <h2>New Demo Request</h2>
+        <h2>User Details</h2>
         <p><strong>Name:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email}</p>
         <p><strong>Phone:</strong> ${phone || "Not provided"}</p>
