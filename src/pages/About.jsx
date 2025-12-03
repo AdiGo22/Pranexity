@@ -5,17 +5,17 @@ import { Linkedin, Mail } from 'lucide-react';
 const founders = [
   {
     name: 'Gaurav Gupta',
-    role: 'Co-Founder & CEO',
+    role: 'Director',
     bio: 'Former ML Lead at Wipro, Gaurav brings 12+ years of experience scaling AI products from research to production. Passionate about making enterprise AI accessible and reliable.',
-    linkedin: '#',
-    email: 'gaurav@pranexity.com'
+    linkedin: 'https://www.linkedin.com/in/gauravguptagarry/',
+    email: 'GauravGupta@pranexity.com'
   },
   {
     name: 'Tharun Benchappa',
-    role: 'Co-Founder & CTO',
-    bio: 'Ex-Principal Engineer at AWS, Tharun architected cloud platforms serving millions. Specializes in distributed systems, data infrastructure, and engineering excellence.',
-    linkedin: '#',
-    email: 'tharun@pranexity.com'
+    role: 'Managing Director',
+    bio : "Managing Director of Pranexity, leading with a vision to make technology truly empower people and businesses With prior leadership experience at Empathy Technologies" ,
+    linkedin: 'https://www.linkedin.com/in/tharun-b-48a550207/',
+    email: 'Tharun@pranexity.com'
   }
 ];
 

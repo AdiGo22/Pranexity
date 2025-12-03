@@ -490,8 +490,8 @@ export default function Home() {
               <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Get in Touch</h4>
               <ul className="space-y-3">
                 <li>
-                  <a href="mailto:tharun@pranexity.com" className="text-white/60 hover:text-teal-400 transition-colors text-sm">
-                    tharun@pranexity.com
+                  <a href="mailto:support@pranexity.com" className="text-white/60 hover:text-teal-400 transition-colors text-sm">
+                    support@pranexity.com
                   </a>
                 </li>
                 <li className="text-white/60 text-sm">

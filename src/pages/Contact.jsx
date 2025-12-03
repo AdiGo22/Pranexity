@@ -240,8 +240,8 @@ export default function Contact() {
                   </div>
                   <div>
                     <div className="text-sm text-white/50 mb-1">Email Us</div>
-                    <a href="mailto:tharun@pranexity.com" className="text-white hover:text-teal-400 transition-colors">
-                      tharun@pranexity.com
+                    <a href="mailto:support@pranexity.com" className="text-white hover:text-teal-400 transition-colors">
+                      support@pranexity.com
                     </a>
                   </div>
                 </div>
