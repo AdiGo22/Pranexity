@@ -32,7 +32,7 @@ export const createContact = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "Thank you! Your demo request has been sent successfully. We'll get back to you soon!",
+      message: "Thank you! Your request has been sent successfully. We'll get back to you soon!",
       id: contact.id,
     });
 
