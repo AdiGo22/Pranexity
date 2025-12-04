@@ -10,7 +10,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Allowed frontend origins
+//  frontend origins
 const allowedOrigins = [
   "https://pranexity.com",
   "https://www.pranexity.com",
@@ -23,7 +23,7 @@ const corsOptions = {
   origin: (origin, callback) => {
     console.log("CORS Request From:", origin);
 
-    // Allow server-to-server, curl, Postman (no origin)
+    // Allow server-to-server (no origin)
     if (!origin) return callback(null, true);
 
     // Allow only listed origins

@@ -37,7 +37,7 @@ export default function Contact() {
       if (response.ok) {
         setSubmitStatus({ 
           type: 'success', 
-          message: 'Thank you! Your demo request has been sent successfully. We\'ll get back to you soon!' 
+          message: 'Thank you! Your request has been sent successfully. We\'ll get back to you soon!' 
         });
         // Reset form
         setFormData({
