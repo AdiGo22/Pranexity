@@ -16,7 +16,7 @@ export const createContact = async (req, res) => {
   try {
     console.log("Saving contact:", { name, email, phone, message, preferredTime });
 
-    // Save to DATABASE
+    //  Save to database 
     const contact = await prisma.contact.create({
       data: {
         name,
@@ -27,17 +27,22 @@ export const createContact = async (req, res) => {
       },
     });
 
-    // Send Email
-    await sendContactEmail({ name, email, phone, message, preferredTime });
-
-    return res.status(200).json({
+    //  Respond immediately
+    res.status(200).json({
       success: true,
       message: "Thank you! Your request has been sent successfully. We'll get back to you soon!",
       id: contact.id,
     });
 
+    // Sending email in background 
+    sendContactEmail({ name, email, phone, message, preferredTime })
+      .then(() => console.log("Email sent in background"))
+      .catch(err => console.error("Background email sending error:", err));
+
   } catch (error) {
     console.error("Error saving contact or sending email:", error);
+
+    //   DB fails 
     return res.status(500).json({
       error: "Unable to process your request right now. Try again later.",
     });
