@@ -3,14 +3,16 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const sendContactEmail = async ({ name, email, phone, message, preferredTime }) => {
   try {
+    // Convert comma-separated list into an array
+    const recipients = process.env.SEND_TO.split(",").map(e => e.trim());
+
     const response = await resend.emails.send({
-      from: process.env.FROM_EMAIL,   
-      to: process.env.SEND_TO,     
+      from: process.env.FROM_EMAIL,
+      to: recipients, // now handles multiple emails
       subject: "New Updates",
       html: `
         <h2>User Details</h2>
